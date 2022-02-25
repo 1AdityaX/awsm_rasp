@@ -7,8 +7,11 @@ reader = SimpleMFRC522()
 try:
     id, text = reader.read()
     print(id)
-    data = dict(eval(text))
-    for k, v in data.items():
-        print(f"{k} \t {v}")
+    try:
+        data = dict(eval(text))
+        for k, v in data.items():
+            print(f"{k} \t {v}")
+    except ValueError:
+        print(text)
 finally:
     GPIO.cleanup()
