@@ -51,7 +51,7 @@ kiwisolver==1.4.2
 lazy-object-proxy==0.0.0
 lobe==0.6.2
 logilab-common==1.8.1
-lxml==4.6.3
+lxml==4.6.5
 MarkupSafe==1.1.1
 matplotlib==3.5.1
 mccabe==0.6.1
