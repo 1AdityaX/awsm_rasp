@@ -16,7 +16,6 @@ class Servo():
             pwm.ChangeDutyCycle(5.5)
             time.sleep(1)
             pwm.stop()
-            GPIO.cleanup()
         except KeyboardInterrupt:
             pwm.stop()
             GPIO.cleanup()
@@ -30,7 +29,6 @@ class Servo():
             pwm.ChangeDutyCycle(9.5)
             time.sleep(1)
             pwm.stop()
-            GPIO.cleanup()
         except KeyboardInterrupt:
             pwm.stop()
             GPIO.cleanup()
@@ -44,7 +42,6 @@ class Servo():
             pwm.ChangeDutyCycle(7.6)
             time.sleep(1)
             pwm.stop()
-            GPIO.cleanup()
         except KeyboardInterrupt:
             pwm.stop()
             GPIO.cleanup()
@@ -59,7 +56,6 @@ class Servo():
             pwm.ChangeDutyCycle(5.0)
             time.sleep(1)
             pwm.stop()
-            GPIO.cleanup()
         except KeyboardInterrupt:
             pwm.stop()
             GPIO.cleanup()
@@ -73,7 +69,6 @@ class Servo():
             pwm.ChangeDutyCycle(11.0)
             time.sleep(1)
             pwm.stop()
-            GPIO.cleanup()
         except KeyboardInterrupt:
             pwm.stop()
             GPIO.cleanup()
