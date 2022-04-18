@@ -23,3 +23,7 @@ else:
     servo1.right()
     servo2.right()
 
+top_servo.open()
+top_servo.close()
+servo1.middle()
+servo2.middle()
