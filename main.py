@@ -18,9 +18,11 @@ def main():
     time.sleep(1)
     lcd.write_string(u'Place your rfid card')
     time.sleep(2)
-
-    id, text = reader.read()
-    data = dict(eval(text))
+    try:
+        id,text = reader.read()
+        data = dict(eval(text))
+    finally:
+        GPIO.cleanup([9, 10, 11, 8])
     lcd.clear()
     
     lcd.write_string(f'RFID: {id}')
@@ -65,12 +67,16 @@ def main():
 
 
 a = 1
+
 try:
     while a == 1:
-        main()
+        try:
+            main()
+        except EOFError:
+            pass
+        except Exception as e:
+            raise e            
 except KeyboardInterrupt:
-    a = 0
     lcd.clear()
     GPIO.cleanup()
-
 
