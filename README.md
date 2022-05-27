@@ -19,7 +19,7 @@ nano .bashrc
 
 ```
 if [ -z "${SSH_TTY}" ]; then
-  xinit /home/pi/script.sh
+  python /home/pi/sd_rasp/main.py
 fi
 ```
 # 
