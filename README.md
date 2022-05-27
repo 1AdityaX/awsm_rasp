@@ -10,18 +10,18 @@ bash setup.sh
 ```
 ### Running the main script on startup
 
-  **1. open your .bashrc file**
-  ```
-  nano .bashrc
-  ```
+**1. open your .bashrc file**
+```
+nano .bashrc
+```
 
-  **2. Add this piece of code at the end of your .bashrc file**
+**2. Add this piece of code at the end of your .bashrc file**
 
-  ```
-  if [ -z "${SSH_TTY}" ]; then
-    xinit /home/pi/script.sh
-  fi
-  ```
+```
+if [ -z "${SSH_TTY}" ]; then
+  xinit /home/pi/script.sh
+fi
+```
 # 
 # End 
 
