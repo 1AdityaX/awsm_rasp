@@ -1,4 +1,4 @@
-from CharLCD import Char
+from RPLCD.gpio import CharLCD
 from utility.utility import classify_image
 from utility.servo import Servo
 from utility.rfid import Rfid
