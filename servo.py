@@ -1,6 +1,6 @@
 from utility.servo import Servo
 
-servo1 = Servo(17)
+servo1 = Servo(14)
 servo2 = Servo(27)
 top_servo = Servo(22)
 
