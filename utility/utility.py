@@ -14,7 +14,7 @@ def take_picture():
     cv2.destroyAllWindows()
 
 def classify_image():
-    take_picture()
+    #take_picture()
     model = ImageModel.load('/home/pi/sd_rasp/image_classification')
     img = Image.open('/home/pi/sd_rasp/image.jpg')
     result = model.predict(img)
