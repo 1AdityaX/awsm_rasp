@@ -20,7 +20,7 @@ def main():
         id,text = reader.read()
         data = dict(eval(text))
     finally:
-        GPIO.cleanup([9, 10, 11, 8])
+        pass
     lcd.clear()
     
     lcd.write_string(f'RFID: {id}')
@@ -33,9 +33,9 @@ def main():
     
     classfication = classify_image()
 
-    servo1 = Servo(17)
-    servo2 = Servo(27)
-    top_servo = Servo(22)
+    servo1 = Servo(5)
+    servo2 = Servo(6)
+    top_servo = Servo(13)
 
     lcd.clear()
     if classfication == "plastic":
