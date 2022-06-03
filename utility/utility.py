@@ -8,7 +8,7 @@ def take_picture():
     result = True
     while(result):
         ret,frame = videoCaptureObject.read()
-        cv2.imwrite("image.jpg",frame)
+        cv2.imwrite("/home/pi/sd_rasp/image.jpg", frame)
         result = False
     videoCaptureObject.release()
     cv2.destroyAllWindows()
