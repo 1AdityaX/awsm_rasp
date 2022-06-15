@@ -11,3 +11,6 @@ servo1.middle()
 servo2.right()
 servo2.left()
 servo2.middle()
+
+top_servo.open()
+top_servo.close()
