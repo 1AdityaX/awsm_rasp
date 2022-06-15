@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import time
 from mfrc522 import SimpleMFRC522
 
+GPIO.setmode(GPIO.BCM)
 reader = SimpleMFRC522()
 
 lcd = CharLCD('PCF8574', 0x27)
