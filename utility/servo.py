@@ -7,7 +7,6 @@ class Servo():
         
 
     def right(self):
-        GPIO.setmode(GPIO.BCM)
         pin = self.servopin
         GPIO.setup(self.servopin, GPIO.OUT)
         pwm = GPIO.PWM(self.servopin, 50)
@@ -21,7 +20,6 @@ class Servo():
             GPIO.cleanup()
         
     def left(self):
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.servopin, GPIO.OUT)
         pwm = GPIO.PWM(self.servopin, 50)
         pwm.start(0)
@@ -34,7 +32,6 @@ class Servo():
             GPIO.cleanup()
 
     def middle(self):
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.servopin, GPIO.OUT)
         pwm = GPIO.PWM(self.servopin, 50)
         pwm.start(0)
@@ -48,7 +45,6 @@ class Servo():
 
 
     def open(self):
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.servopin, GPIO.OUT)
         pwm = GPIO.PWM(self.servopin, 50)
         pwm.start(0)
@@ -61,7 +57,6 @@ class Servo():
             GPIO.cleanup()
 
     def close(self):
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.servopin, GPIO.OUT)
         pwm = GPIO.PWM(self.servopin, 50)
         pwm.start(0)
