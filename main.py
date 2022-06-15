@@ -1,6 +1,5 @@
 from utility.utility import classify_image
 from utility.servo import Servo
-from utility.rfid import Rfid
 from RPLCD.i2c import CharLCD
 import RPi.GPIO as GPIO
 import time
@@ -17,9 +16,12 @@ def main():
     lcd.write_string(u'Place your rfid card')
     time.sleep(2)
     try:
+        print("reading")
         id,text = reader.read()
         data = dict(eval(text))
+        print(data)
     finally:
+        print("fail")
         pass
     lcd.clear()
     
