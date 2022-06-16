@@ -50,7 +50,7 @@ def main():
     lcd.clear()
     if classfication == "plastic":
         lcd.write_string("Plastic")
-        update_points(data, 30)
+        #update_points(data, 30)
         servo1.left()
         servo2.left()
         lcd.clear()
@@ -60,7 +60,7 @@ def main():
 
     elif classfication == "metal":
         lcd.write_string("Metal")
-        update_points(data, 20)
+        #update_points(data, 20)
         servo1.left()
         servo2.right()
         lcd.clear()
@@ -80,7 +80,7 @@ def main():
 
     else:
         lcd.write_string("Other")
-        update_points(data, 5)
+        #update_points(data, 5)
         servo1.right()
         servo2.right()
         lcd.clear()
