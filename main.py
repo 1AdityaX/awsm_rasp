@@ -26,7 +26,7 @@ def update_points(data: dict, points):
     try:
         reader.write(str(data))
     finally:
-        GPIO.cleanup()
+        pass
 
 
 def main():
