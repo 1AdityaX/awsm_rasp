@@ -55,6 +55,7 @@ def main():
         servo2.left()
         lcd.clear()
         lcd.write_string("You got 30 points")
+        time.sleep(1)
         print_lcd_creds(id, data)
 
     elif classfication == "metal":
@@ -63,7 +64,8 @@ def main():
         servo1.left()
         servo2.right()
         lcd.clear()
-        lcd.write_string("You got 30 points")
+        lcd.write_string("You got 20 points")
+        time.sleep(1)
         print_lcd_creds(id, data)
 
     elif classfication == "paper" or classfication == "cardboard":
@@ -72,7 +74,8 @@ def main():
         servo1.right()
         servo2.left()
         lcd.clear()
-        lcd.write_string("You got 30 points")
+        lcd.write_string("You got 10 points")
+        time.sleep(1)
         print_lcd_creds(id, data)
 
     else:
@@ -81,7 +84,8 @@ def main():
         servo1.right()
         servo2.right()
         lcd.clear()
-        lcd.write_string("You got 30 points")
+        lcd.write_string("You got 5 points")
+        time.sleep(1)
         print_lcd_creds(id, data)
 
     top_servo.open()
