@@ -27,7 +27,7 @@ class Servo():
         pwm = GPIO.PWM(self.servopin, 50)
         pwm.start(0)
         try: 
-            pwm.ChangeDutyCycle(9.5)
+            pwm.ChangeDutyCycle(10.5)
             time.sleep(1)
             pwm.stop()
         except KeyboardInterrupt:
