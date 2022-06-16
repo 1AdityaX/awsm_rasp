@@ -51,6 +51,9 @@ def main():
     lcd.clear()
     if classfication == "plastic":
         lcd.write_string("Plastic")
+        time.sleep(1)
+        lcd.clear()
+        lcd.write_string("Place it Again to get your points")
         update_points(data, 30)
         servo1.left()
         servo2.left()
@@ -61,6 +64,9 @@ def main():
 
     elif classfication == "metal":
         lcd.write_string("Metal")
+        time.sleep(1)
+        lcd.clear()
+        lcd.write_string("Place it Again to get your points")
         update_points(data, 20)
         servo1.left()
         servo2.right()
@@ -71,6 +77,9 @@ def main():
 
     elif classfication == "paper" or classfication == "cardboard":
         lcd.write_string("Paper")
+        time.sleep(1)
+        lcd.clear()
+        lcd.write_string("Place it Again to get your points")
         update_points(data, 10)
         servo1.right()
         servo2.left()
@@ -81,6 +90,9 @@ def main():
 
     else:
         lcd.write_string("Other")
+        time.sleep(1)
+        lcd.clear()
+        lcd.write_string("Place it Again to get your points")
         update_points(data, 5)
         servo1.right()
         servo2.right()
