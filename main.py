@@ -21,7 +21,7 @@ def print_lcd_creds(id, data: dict):
     lcd.write_string(f'Class: {data["class"]}')
 
 def update_points(data: dict, points):
-    data["points"] = points
+    data["points"] = int(data["points"]) + points
     try:
         reader.write(str(data))
     finally:
