@@ -10,22 +10,8 @@ reader = SimpleMFRC522()
 
 lcd = CharLCD('PCF8574', 0x27)
 
-def main():
-    time.sleep(1)
+def print_lcd_creds(id, data: dict):
     lcd.clear()
-    time.sleep(1)
-    lcd.write_string(u'Place your rfid card')
-    time.sleep(2)
-    try:
-        print("reading")
-        id,text = reader.read()
-        data = dict(eval(text))
-        print(data)
-    finally:
-        print("fail")
-        pass
-    lcd.clear()
-    
     lcd.write_string(f'RFID: {id}')
     lcd.cursor_pos = (1, 0)
     lcd.write_string(f'Name: {data["name"]}')
@@ -33,6 +19,27 @@ def main():
     lcd.write_string(f'Points: {data["points"]}')
     lcd.cursor_pos = (3, 0)
     lcd.write_string(f'Class: {data["class"]}')
+
+def update_points(data: dict, points):
+    data["points"] = points
+    try:
+        reader.write(str(data))
+    finally:
+        GPIO.cleanup()
+
+
+def main():
+    time.sleep(1)
+    lcd.clear()
+    time.sleep(1)
+    lcd.write_string(u'Place your rfid card')
+    time.sleep(2)
+    try:
+        id,text = reader.read()
+        data = dict(eval(text))
+    finally:
+        pass
+    print_lcd_creds(id, data)
     
     classfication = classify_image()
 
@@ -43,23 +50,39 @@ def main():
     lcd.clear()
     if classfication == "plastic":
         lcd.write_string("Plastic")
+        update_points(data, 30)
         servo1.left()
         servo2.left()
+        lcd.clear()
+        lcd.write_string("You got 30 points")
+        print_lcd_creds(id, data)
 
     elif classfication == "metal":
         lcd.write_string("Metal")
+        update_points(data, 20)
         servo1.left()
         servo2.right()
+        lcd.clear()
+        lcd.write_string("You got 30 points")
+        print_lcd_creds(id, data)
 
     elif classfication == "paper" or classfication == "cardboard":
         lcd.write_string("Paper")
+        update_points(data, 10)
         servo1.right()
         servo2.left()
+        lcd.clear()
+        lcd.write_string("You got 30 points")
+        print_lcd_creds(id, data)
 
     else:
         lcd.write_string("Other")
+        update_points(data, 5)
         servo1.right()
         servo2.right()
+        lcd.clear()
+        lcd.write_string("You got 30 points")
+        print_lcd_creds(id, data)
 
     top_servo.open()
     top_servo.close()

@@ -21,7 +21,7 @@ class Rfid:
 
     def update_value(self, key, value):
         id, data = self.read()
-        updata = data
+        updata = dict(data)
         updata[key] = value
         self.rfid.write(updata)
 
