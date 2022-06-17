@@ -14,6 +14,7 @@ def main():
     lcd.clear()
     time.sleep(1)
     lcd.write_string(u'Running backup...')
+    lcd.clear()
     time.sleep(2)
     lcd.write_string(u'Place your trash in the deposit box')
     time.sleep(4)
