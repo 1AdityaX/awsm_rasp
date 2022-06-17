@@ -26,21 +26,29 @@ def main():
     lcd.clear()
     if classfication == "plastic":
         lcd.write_string("Plastic")
+        servo1.left()
+        servo2.left()
         time.sleep(1)
         lcd.clear()
 
     elif classfication == "metal":
         lcd.write_string("Metal")
+        servo1.left()
+        servo2.right()
         time.sleep(1)
         lcd.clear()
 
     elif classfication == "paper" or classfication == "cardboard":
         lcd.write_string("Paper")
+        servo1.right()
+        servo2.left()
         time.sleep(1)
         lcd.clear()
 
     else:
         lcd.write_string("Other")
+        servo1.right()
+        servo2.right()
         time.sleep(1)
         lcd.clear()
 
