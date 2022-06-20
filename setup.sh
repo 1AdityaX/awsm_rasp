@@ -20,6 +20,7 @@ sudo apt-get install -y libgtk-3-dev
 echo "Installing Python Libraries"
 
 pip install -r requirements.txt
+pip install smbus-cffi --upgrade
 
 echo "Done!"
 
