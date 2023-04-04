@@ -2,7 +2,7 @@
 
 ### Installation
 ```
- git clone https://github.com/AnonymousXsn/sd_rasp.git
+ git clone https://github.com/AnonymousXsn/awsm_rasp.git
 ```
 ### Setup
 ```
