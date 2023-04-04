@@ -23,12 +23,12 @@ def classify_image():
     _max = max(confidences)
     if _max > 65:
         label = labels[confidences.index(_max)]
-        if label in ["glass"]:
-            return "others"
-        else:
+        if label in ["Paper", "Metal", "Plastic"]:
             return label
+        else:
+            return "Miscellaneous"
     else:
-        return "others"
+        return "Miscellaneous"
         
 
 
