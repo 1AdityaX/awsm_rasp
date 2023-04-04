@@ -1,3 +1,5 @@
+set +e
+
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get install -y python3
@@ -21,6 +23,13 @@ echo "Installing Python Libraries"
 
 pip install -r requirements.txt
 pip install smbus-cffi --upgrade
+
+echo "Adding startup main.py to .bashrc"
+cat << 'EOF' >> ~/.bashrc
+if [ -z "${SSH_TTY}" ]; then
+  python /home/pi/sd_rasp/main.py
+fi
+EOF
 
 echo "Done!"
 
