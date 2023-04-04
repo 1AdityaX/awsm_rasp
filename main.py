@@ -1,14 +1,30 @@
+# Custom Imports
 from utility.utility import classify_image
 from utility.servo import Servo
+
+# PyPi Imports
 from RPLCD.i2c import CharLCD
 import RPi.GPIO as GPIO
 import time
 from mfrc522 import SimpleMFRC522
 
-GPIO.setmode(GPIO.BCM)
+# Pin Setups
+GPIO.setmode(GPIO.BOARD)
 reader = SimpleMFRC522()
-
+servo1 = Servo(29)
+servo2 = Servo(31)
+top_servo = Servo(33)
 lcd = CharLCD('PCF8574', 0x27)
+_rfid_RST_pin = 22
+
+# Points for trash
+points = {
+    "Plastic": 30,
+    "Metal": 20,
+    "Paper": 10,
+    "Other": 5
+}
+
 
 def print_lcd_creds(id, data: dict):
     lcd.clear()
@@ -29,6 +45,36 @@ def update_points(data: dict, points):
         pass
 
 
+def classify_after_works(trash, data):
+    lcd.write_string(trash)
+    time.sleep(1)
+    lcd.clear()
+    lcd.write_string("Place it Again to get your points")
+    update_points(data, points[trash])
+
+    if trash == "Plastic":
+        servo1.right()
+        servo2.left()
+    elif trash == "Metal":
+        servo1.left()
+        servo2.right()
+    elif trash == "Paper":
+        servo1.right()
+        servo2.left()
+    else:
+        servo1.right()
+        servo2.right()
+
+    lcd.clear()
+    lcd.write_string(f"You got {points[trash]} points")
+    time.sleep(1)
+    print_lcd_creds(id, data)
+    top_servo.open()
+    top_servo.close()
+    servo1.middle()
+    servo2.middle()
+
+
 def main():
     time.sleep(1)
     lcd.clear()
@@ -43,81 +89,27 @@ def main():
     print_lcd_creds(id, data)
     
     classfication = classify_image()
-
-    servo1 = Servo(5)
-    servo2 = Servo(6)
-    top_servo = Servo(13)
-
     lcd.clear()
-    if classfication == "plastic":
-        lcd.write_string("Plastic")
-        time.sleep(1)
-        lcd.clear()
-        lcd.write_string("Place it Again to get your points")
-        update_points(data, 30)
-        servo1.left()
-        servo2.left()
-        lcd.clear()
-        lcd.write_string("You got 30 points")
-        time.sleep(1)
-        print_lcd_creds(id, data)
 
-    elif classfication == "metal":
-        lcd.write_string("Metal")
-        time.sleep(1)
-        lcd.clear()
-        lcd.write_string("Place it Again to get your points")
-        update_points(data, 20)
-        servo1.left()
-        servo2.right()
-        lcd.clear()
-        lcd.write_string("You got 20 points")
-        time.sleep(1)
-        print_lcd_creds(id, data)
-
-    elif classfication == "paper" or classfication == "cardboard":
-        lcd.write_string("Paper")
-        time.sleep(1)
-        lcd.clear()
-        lcd.write_string("Place it Again to get your points")
-        update_points(data, 10)
-        servo1.right()
-        servo2.left()
-        lcd.clear()
-        lcd.write_string("You got 10 points")
-        time.sleep(1)
-        print_lcd_creds(id, data)
-
-    else:
-        lcd.write_string("Other")
-        time.sleep(1)
-        lcd.clear()
-        lcd.write_string("Place it Again to get your points")
-        update_points(data, 5)
-        servo1.right()
-        servo2.right()
-        lcd.clear()
-        lcd.write_string("You got 5 points")
-        time.sleep(1)
-        print_lcd_creds(id, data)
-
-    top_servo.open()
-    top_servo.close()
-    servo1.middle()
-    servo2.middle()
+    classify_after_works(classfication, data)
 
 
-a = 1
 
-try:
-    while a == 1:
-        try:
-            main()
-        except EOFError:
-            pass
-        except Exception as e:
-            raise e            
-except KeyboardInterrupt:
-    lcd.clear()
-    GPIO.cleanup()
+while True:
+    try:
+        main()
+    except EOFError:
+        pass
+    except KeyboardInterrupt:
+        lcd.clear()
+        GPIO.cleanup()
+        break
+    except Exception as e:
+        print(e)
+        GPIO.setup(_rfid_RST_pin, GPIO.OUT)
+        GPIO.output(_rfid_RST_pin, GPIO.LOW)
+        lcd.clear()
+        lcd.write_string('Error Try Again')
+
+
 
