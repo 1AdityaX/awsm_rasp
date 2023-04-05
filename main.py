@@ -26,6 +26,7 @@ points = {
     "Other": 5
 }
 
+# RFID reset while starting
 GPIO.setup(_rfid_RST_pin, GPIO.OUT)
 GPIO.output(_rfid_RST_pin, GPIO.LOW)
 time.sleep(0.2)
@@ -43,7 +44,7 @@ def print_lcd_creds(id, data: dict):
     lcd.write_string(f'Class: {data["class"]}')
     
 
-def update_points(data: dict, points):
+def update_points(data: dict, points: int):
     data["points"] = int(data["points"]) + points
     try:
         reader.write(str(data))
@@ -51,7 +52,7 @@ def update_points(data: dict, points):
         pass
 
 
-def classify_after_works(trash, data):
+def classify_after_works(trash, data: dict):
     lcd.write_string(trash)
     time.sleep(1)
     lcd.clear()

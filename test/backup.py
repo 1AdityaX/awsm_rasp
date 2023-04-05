@@ -4,7 +4,7 @@ from RPLCD.i2c import CharLCD
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
 
 lcd = CharLCD('PCF8574', 0x27)
