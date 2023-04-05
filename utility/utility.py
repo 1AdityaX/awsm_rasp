@@ -8,15 +8,15 @@ def take_picture():
     result = True
     while(result):
         ret,frame = videoCaptureObject.read()
-        cv2.imwrite("/home/pi/sd_rasp/image.jpg", frame)
+        cv2.imwrite("/home/pi/awsm_rasp/image.jpg", frame)
         result = False
     videoCaptureObject.release()
     cv2.destroyAllWindows()
 
 def classify_image():
     take_picture()
-    model = ImageModel.load('/home/pi/sd_rasp/image_classification')
-    img = Image.open('/home/pi/sd_rasp/image.jpg')
+    model = ImageModel.load('/home/pi/awsm_rasp/image_classification')
+    img = Image.open('/home/pi/awsm_rasp/image.jpg')
     result = model.predict(img)
     labels = [label[0] for label in result.labels]
     confidences = [int(confidence[1]*100) for confidence in result.labels]

@@ -25,6 +25,11 @@ points = {
     "Other": 5
 }
 
+GPIO.setup(_rfid_RST_pin, GPIO.OUT)
+GPIO.output(_rfid_RST_pin, GPIO.LOW)
+time.sleep(0.2)
+GPIO.output(_rfid_RST_pin, GPIO.HIGH)
+
 
 def print_lcd_creds(id, data: dict):
     lcd.clear()
@@ -106,10 +111,11 @@ while True:
         break
     except Exception as e:
         print(e)
-        GPIO.setup(_rfid_RST_pin, GPIO.OUT)
         GPIO.output(_rfid_RST_pin, GPIO.LOW)
         lcd.clear()
         lcd.write_string('Error Try Again')
+        time.sleep(0.5)
+        GPIO.output(_rfid_RST_pin, GPIO.HIGH)
 
 
 
