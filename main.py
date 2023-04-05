@@ -9,14 +9,10 @@ import time
 from mfrc522 import SimpleMFRC522
 import traceback
 
-# Pin Setups
-GPIO.setmode(GPIO.BOARD)
-reader = SimpleMFRC522()
-servo1 = Servo(29)
-servo2 = Servo(31)
-top_servo = Servo(33)
-lcd = CharLCD('PCF8574', 0x27)
-_rfid_RST_pin = 22
+global reader
+global servo1
+global servo2
+global top_servo
 
 # Points for trash
 points = {
@@ -25,12 +21,6 @@ points = {
     "Paper": 10,
     "Other": 5
 }
-
-# RFID reset while starting
-GPIO.setup(_rfid_RST_pin, GPIO.OUT)
-GPIO.output(_rfid_RST_pin, GPIO.LOW)
-time.sleep(0.2)
-GPIO.output(_rfid_RST_pin, GPIO.HIGH)
 
 
 def print_lcd_creds(id, data: dict):
@@ -83,11 +73,19 @@ def classify_after_works(trash, data: dict):
 
 
 def main():
+    GPIO.setmode(GPIO.BOARD)
+    reader = SimpleMFRC522()
+    servo1 = Servo(29)
+    servo2 = Servo(31)
+    top_servo = Servo(33)
+    lcd = CharLCD('PCF8574', 0x27)
+
     time.sleep(1)
     lcd.clear()
     time.sleep(1)
     lcd.write_string(u'Place your rfid card')
-    time.sleep(2)
+    time.sleep(1)
+
     try:
         id,text = reader.read()
         data = dict(eval(text))
@@ -99,26 +97,23 @@ def main():
     lcd.clear()
 
     classify_after_works(classfication, data)
+    GPIO.cleanup()
 
 
 
 while True:
     try:
         main()
-    except EOFError:
-        pass
     except KeyboardInterrupt:
         lcd.clear()
         GPIO.cleanup()
         break
     except Exception as e:
+        GPIO.cleanup()
         traceback.print_exc()
         print("-----------------------------------------------------------------")
-        GPIO.output(_rfid_RST_pin, GPIO.LOW)
         lcd.clear()
         lcd.write_string('Error Try Again')
-        time.sleep(0.5)
-        GPIO.output(_rfid_RST_pin, GPIO.HIGH)
 
 
 
