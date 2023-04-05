@@ -7,6 +7,7 @@ from RPLCD.i2c import CharLCD
 import RPi.GPIO as GPIO
 import time
 from mfrc522 import SimpleMFRC522
+import traceback
 
 # Pin Setups
 GPIO.setmode(GPIO.BOARD)
@@ -110,7 +111,8 @@ while True:
         GPIO.cleanup()
         break
     except Exception as e:
-        print(e)
+        traceback.print_exc()
+        print("-----------------------------------------------------------------")
         GPIO.output(_rfid_RST_pin, GPIO.LOW)
         lcd.clear()
         lcd.write_string('Error Try Again')
