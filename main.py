@@ -9,6 +9,7 @@ import time
 from mfrc522 import SimpleMFRC522
 import traceback
 
+lcd = CharLCD('PCF8574', 0x27)
 
 # Points for trash
 points = {
@@ -74,12 +75,11 @@ def main():
     global servo1
     global servo2
     global top_servo
-    global lcd
     reader = SimpleMFRC522()
     servo1 = Servo(29)
     servo2 = Servo(31)
     top_servo = Servo(33)
-    lcd = CharLCD('PCF8574', 0x27)
+    
 
     time.sleep(1)
     lcd.clear()
