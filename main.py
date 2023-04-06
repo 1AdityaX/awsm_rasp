@@ -13,6 +13,7 @@ global reader
 global servo1
 global servo2
 global top_servo
+global lcd
 
 # Points for trash
 points = {
@@ -109,11 +110,11 @@ while True:
         GPIO.cleanup()
         break
     except Exception as e:
-        GPIO.cleanup()
         traceback.print_exc()
         print("-----------------------------------------------------------------")
         lcd.clear()
         lcd.write_string('Error Try Again')
+        GPIO.cleanup()
 
 
 
