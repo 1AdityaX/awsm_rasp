@@ -9,11 +9,6 @@ import time
 from mfrc522 import SimpleMFRC522
 import traceback
 
-global reader
-global servo1
-global servo2
-global top_servo
-global lcd
 
 # Points for trash
 points = {
@@ -75,6 +70,11 @@ def classify_after_works(trash, data: dict):
 
 def main():
     GPIO.setmode(GPIO.BOARD)
+    global reader
+    global servo1
+    global servo2
+    global top_servo
+    global lcd
     reader = SimpleMFRC522()
     servo1 = Servo(29)
     servo2 = Servo(31)
