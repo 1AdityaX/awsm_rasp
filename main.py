@@ -9,6 +9,7 @@ import time
 from mfrc522 import SimpleMFRC522
 import traceback
 
+GPIO.setmode(GPIO.BOARD)
 lcd = CharLCD('PCF8574', 0x27)
 servo1 = Servo(29)
 servo2 = Servo(31)
