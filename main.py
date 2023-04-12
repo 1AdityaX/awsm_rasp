@@ -10,6 +10,7 @@ from mfrc522 import SimpleMFRC522
 import traceback
 
 GPIO.setmode(GPIO.BOARD)
+reader = SimpleMFRC522()
 lcd = CharLCD('PCF8574', 0x27)
 servo1 = Servo(29)
 servo2 = Servo(31)
@@ -74,11 +75,6 @@ def classify_after_works(trash, data: dict):
 
 
 def main():
-    GPIO.setmode(GPIO.BOARD)
-    global reader
-    reader = SimpleMFRC522()
-    
-    time.sleep(1)
     lcd.clear()
     time.sleep(1)
     lcd.write_string(u'Place your rfid card')
@@ -108,10 +104,10 @@ while True:
         break
     except Exception as e:
         traceback.print_exc()
+        reader.READER.MFRC522_StopCrypto1()
         print("-----------------------------------------------------------------")
         lcd.clear()
         lcd.write_string('Error Try Again')
-        GPIO.cleanup()
 
 
 
