@@ -24,19 +24,5 @@ echo "Installing Python Libraries"
 pip install -r requirements.txt
 pip install smbus-cffi --upgrade
 
-if grep -qxF 'if [ -z "${SSH_TTY}" ]; then
-  python /home/pi/awsm_rasp/main.py >> /home/pi/awsm_rasp/awsm.log
-fi' ~/.bashrc; then
-    echo "The line exists in .bashrc"
-else
-    echo "The line does not exist in .bashrc"
-    echo "Adding startup main.py to .bashrc"
-    cat <<EOF >> ~/.bashrc
-if [ -z "${SSH_TTY}" ]; then
-  python /home/pi/awsm_rasp/main.py >> /home/pi/awsm_rasp/awsm.log
-fi
-EOF
-fi
-
-echo "Done!"
+echo "Done"
 
