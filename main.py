@@ -1,6 +1,7 @@
 # Custom Imports
 from utility.utility import classify_image
 from utility.servo import Servo
+from utility.sqlite import Sqlite
 
 # PyPi Imports
 from RPLCD.i2c import CharLCD
@@ -15,6 +16,7 @@ lcd = CharLCD('PCF8574', 0x27)
 servo1 = Servo(29)
 servo2 = Servo(31)
 top_servo = Servo(33)
+database = Sqlite("awsm.db", "users")
 
 # Points for trash
 points = {
@@ -24,32 +26,23 @@ points = {
     "Other": 5
 }
 
-
-def print_lcd_creds(id, data: dict):
+def print_lcd_creds(data: list):
     lcd.clear()
-    lcd.write_string(f'RFID: {id}')
+    lcd.write_string(f'RFID: {data[0]}')
     lcd.cursor_pos = (1, 0)
-    lcd.write_string(f'Name: {data["name"]}')
+    lcd.write_string(f'Name: {data[1]}')
     lcd.cursor_pos = (2, 0)
-    lcd.write_string(f'Points: {data["points"]}')
+    lcd.write_string(f'Class: {data[2]}')
     lcd.cursor_pos = (3, 0)
-    lcd.write_string(f'Class: {data["class"]}')
-    
+    lcd.write_string(f'Points: {data[3]}')
+    return
 
-def update_points(data: dict, points: int):
-    data["points"] = int(data["points"]) + points
-    try:
-        reader.write(str(data))
-    finally:
-        pass
-
-
-def classify_after_works(trash, data: dict):
-    lcd.write_string(trash)
-    time.sleep(1)
+def classify_after_works(trash, data: list):
     lcd.clear()
-    lcd.write_string("Place it Again to get your points")
-    update_points(data, points[trash])
+    lcd.write_string(trash)
+    time.sleep(0.5)
+    updated_points = data[3] + points[trash]
+    database.update_value("points", updated_points, data[0])
 
     if trash == "Plastic":
         servo1.right()
@@ -66,8 +59,9 @@ def classify_after_works(trash, data: dict):
 
     lcd.clear()
     lcd.write_string(f"You got {points[trash]} points")
-    time.sleep(1)
-    print_lcd_creds(id, data)
+    time.sleep(0.5)
+    up_data = database.get_spec("id", data[0])
+    print_lcd_creds(up_data)
     top_servo.open()
     top_servo.close()
     servo1.middle()
@@ -75,25 +69,32 @@ def classify_after_works(trash, data: dict):
 
 
 def main():
+    ids = database.get_attr("id")
     lcd.clear()
-    time.sleep(1)
+    time.sleep(0.5)
     lcd.write_string(u'Place your rfid card')
-    time.sleep(1)
+    time.sleep(0.5)
+    id = reader.read_id()
+    if id not in ids:
+        lcd.clear()
+        lcd.write_string(u'Print Card Not found')
+        lcd.cursor_pos = (1, 0)
+        lcd.write_string(u'Place Your card again to register')
+        try:
+            id, text = reader.read()
+            data_dict = dict(eval(text))
+            data_list = [id, data_dict["name"], data_dict["class"], data_dict["points"]]
+            database.insert_data(data_list)
+            return
+        except:
+            traceback.print_exc()
+            reader.READER.MFRC522_StopCrypto1()
+            return
 
-    try:
-        id,text = reader.read()
-        data = dict(eval(text))
-    finally:
-        pass
-    print_lcd_creds(id, data)
-    
+    data = database.get_spec("id", id)
+    print_lcd_creds(data)
     classfication = classify_image()
-    lcd.clear()
-
     classify_after_works(classfication, data)
-    GPIO.cleanup()
-
-
 
 while True:
     try:
@@ -103,11 +104,11 @@ while True:
         GPIO.cleanup()
         break
     except Exception as e:
+        print("Error Caught!")
         traceback.print_exc()
         reader.READER.MFRC522_StopCrypto1()
         print("-----------------------------------------------------------------")
         lcd.clear()
         lcd.write_string('Error Try Again')
-
-
-
+    finally:
+        GPIO.cleanup()
